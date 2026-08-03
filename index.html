@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X1 | SMA Al-Abidin</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Manrope:wght@200;300;400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CORE & RESET --- */
+        :root {
+            --bg: #020202;
+            --text: #f5f5f5;
+            --accent: #d4af37;
+            --surface: #070707;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+
+        body {
+            background-color: var(--bg); color: var(--text);
+            font-family: 'Manrope', sans-serif; overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, .serif { font-family: 'Cinzel', serif; font-weight: 400; }
+
+        /* --- CUSTOM CURSOR --- */
+        .cursor-dot, .cursor-outline {
+            position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+            border-radius: 50%; z-index: 9999; pointer-events: none;
+        }
+        .cursor-dot { width: 5px; height: 5px; background-color: var(--accent); }
+        .cursor-outline {
+            width: 40px; height: 40px; border: 1px solid rgba(212, 175, 55, 0.5);
+            transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* --- NAV & HERO --- */
+        nav { position: fixed; top: 0; width: 100%; padding: 40px 5vw; display: flex; justify-content: space-between; z-index: 100; mix-blend-mode: difference; }
+        .brand { font-family: 'Cinzel', serif; font-size: 1.2rem; letter-spacing: 4px; }
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .hero h1 { font-size: clamp(4rem, 10vw, 8rem); line-height: 1; letter-spacing: 2px; }
+        .hero p { margin-top: 20px; font-weight: 200; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; color: #888; }
+
+        /* --- ADAPTIVE GALLERY GRID --- */
+        .gallery-container { padding: 100px 5vw; max-width: 1800px; margin: 0 auto; }
+        .section-title { font-size: 3rem; margin-bottom: 80px; text-align: center; color: var(--accent); }
+
+        .grid-lux {
+            display: grid; grid-template-columns: repeat(12, 1fr); gap: 50px; margin-bottom: 150px;
+            perspective: 2000px; 
+            align-items: start; /* Penting! Agar frame tidak dipaksa sama tinggi dengan sebelahnya */
+        }
+
+        /* Grid Widths */
+        .col-4 { grid-column: span 4; } .col-5 { grid-column: span 5; }
+        .col-6 { grid-column: span 6; } .col-7 { grid-column: span 7; }
+        .col-8 { grid-column: span 8; } .col-12 { grid-column: span 12; }
+        
+        .mt-stagger { margin-top: 15vh; } .mt-stagger-small { margin-top: 8vh; }
+
+        /* ========================================================
+           ADAPTIVE SPATIAL FRAME (Ukuran menyesuaikan konten)
+           ======================================================== */
+        .frame-box {
+            position: relative;
+            background: linear-gradient(145deg, #121212, #050505);
+            padding: 2.5rem; 
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            box-shadow: 0 30px 60px -10px rgba(0,0,0,1), inset 0 1px 0 rgba(255,255,255,0.05);
+            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform-style: preserve-3d;
+            height: auto; /* Frame akan mengikuti tinggi gambar */
+            will-change: transform;
+        }
+
+        .frame-box::before, .frame-box::after {
+            content: ''; position: absolute; width: 25px; height: 25px;
+            border-color: rgba(212, 175, 55, 0.4); border-style: solid;
+            pointer-events: none; z-index: 5;
+        }
+        .frame-box::before { top: 0; left: 0; border-width: 1px 0 0 1px; }
+        .frame-box::after { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+
+        .img-wrapper {
+            position: relative; width: 100%; height: auto; /* Mengikuti tinggi asli */
+            background: transparent;
+            transform: translateZ(30px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex; /* Menghilangkan gap misterius di bawah gambar */
+        }
+
+        /* INI KUNCI UTAMANYA: CSS UNTUK TAG IMG & VIDEO */
+        .real-media {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain; /* Memastikan rasio terjaga utuh */
+        }
+
+        .glare {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.0), transparent);
+            opacity: 0; transition: opacity 0.3s;
+            pointer-events: none; z-index: 10;
+            transform: translateZ(35px);
+        }
+        
+        .hover-target { z-index: 10; }
+
+        @media (max-width: 900px) {
+            .col-4, .col-5, .col-6, .col-7, .col-8 { grid-column: span 12; margin-top: 0; }
+            .frame-box { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
+    <nav>
+        <div class="brand hover-target">AL-ABIDIN</div>
+        <div class="brand hover-target">MMXXVI</div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <h1>KELAS X.1</h1>
+            <p>Arsip Dokumentasi & Kenangan Kelas</p>
+        </section>
+
+        <section class="gallery-container">
+            <h2 class="section-title serif">I. Kurasi Foto</h2>
+            
+            <div class="grid-lux">
+                
+                <!-- CONTOH 1: Foto Lanskap (Mendatar) -->
+                <div class="frame-box col-7 js-parallax hover-target">
+                    <div class="img-wrapper">
+                        <!-- Ganti src dengan fotomu. Class 'real-media' adalah kuncinya -->
+                        <img src="Foto3.jpeg" class="real-media" alt="Foto Kenangan">
+                    </div>
+                    <div class="glare"></div>
+                </div>
+
+                <!-- CONTOH 2: Foto Potret (Tinggi) -->
+                <div class="frame-box col-5 mt-stagger js-parallax hover-target">
+                    <div class="img-wrapper">
+                        <img src="Foto4.jpeg" class="real-media" alt="Foto Kenangan">
+                    </div>
+                    <div class="glare"></div>
+                </div>
+
+                <!-- CONTOH 3: Foto Grup Penuh -->
+                <div class="frame-box col-12 js-parallax hover-target">
+                    <div class="img-wrapper">
+                        <img src="Foto2.jpeg" class="real-media" alt="Foto Grup">
+                    </div>
+                    <div class="glare"></div>
+                </div>
+
+                <!-- Baris 3: 3 Foto Sejajar -->
+                <div class="frame-box col-4 js-parallax hover-target">
+                    <div class="img-wrapper"><img src="Foto5.jpeg" class="real-media" alt="Momen"></div>
+                    <div class="glare"></div>
+                </div>
+                <div class="frame-box col-4 mt-stagger-small js-parallax hover-target">
+                    <div class="img-wrapper"><img src="Foto6.jpeg" class="real-media" alt="Momen"></div>
+                    <div class="glare"></div>
+                </div>
+                <div class="frame-box col-4 js-parallax hover-target">
+                    <div class="img-wrapper"><img src="Foto7.jpeg" class="real-media" alt="Momen"></div>
+                    <div class="glare"></div>
+                </div>
+            </div>
+
+            <h2 class="section-title serif" style="margin-top: 100px;">II. Sinematografi</h2>
+            <div class="grid-lux">
+                
+                <!-- VIDEO 1 -->
+                <div class="frame-box col-6 js-parallax hover-target">
+                    <div class="img-wrapper">
+                        <video class="real-media" autoplay loop muted playsinline controls poster="https://via.placeholder.com/640x360/111111/444444?text=Play+Video+1">
+                            <source src="RAPI.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="glare"></div>
+                </div>
+
+                <!-- VIDEO 2 (Beberapa Frame) -->
+                <div class="frame-box col-6 mt-stagger-small js-parallax hover-target">
+                    <div class="img-wrapper">
+                        <video class="real-media" autoplay loop muted playsinline controls poster="https://via.placeholder.com/640x360/111111/444444?text=Play+Video+2">
+                            <source src="MBUHSOPO.mp4" type="video/mp4"> <!-- ganti path video -->
+                        </video>
+                    </div>
+                    <div class="glare"></div>
+                </div>
+
+                <!-- VIDEO 3 (Beberapa Frame) -->
+                <div class="frame-box col-6 js-parallax hover-target">
+                    <div class="img-wrapper">
+                        <video class="real-media" autoplay loop muted playsinline controls poster="https://via.placeholder.com/640x360/111111/444444?text=Play+Video+3">
+                            <source src="path/to/your/third/video.mp4" type="video/mp4"> <!-- ganti path video -->
+                        </video>
+                    </div>
+                    <div class="glare"></div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // CUSTOM CURSOR
+            const dot = document.getElementById('cursor-dot');
+            const outline = document.getElementById('cursor-outline');
+            const hoverTargets = document.querySelectorAll('.hover-target');
+            let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
+            let outlineX = mouseX, outlineY = mouseY;
+
+            window.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX; mouseY = e.clientY;
+                dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+            });
+
+            function animateCursor() {
+                outlineX += (mouseX - outlineX) * 0.15; 
+                outlineY += (mouseY - outlineY) * 0.15;
+                outline.style.transform = `translate(${outlineX}px, ${outlineY}px)`;
+                requestAnimationFrame(animateCursor);
+            }
+            animateCursor();
+
+            hoverTargets.forEach(target => {
+                target.addEventListener('mouseenter', () => {
+                    outline.style.width = '80px'; outline.style.height = '80px';
+                    outline.style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
+                });
+                target.addEventListener('mouseleave', () => {
+                    outline.style.width = '40px'; outline.style.height = '40px';
+                    outline.style.backgroundColor = 'transparent';
+                });
+            });
+
+            // PARALLAX PADA FRAME (Bingkainya yang bergerak, bukan isinya)
+            const parallaxElements = document.querySelectorAll('.js-parallax');
+            window.addEventListener('scroll', () => {
+                parallaxElements.forEach(el => {
+                    let rect = el.getBoundingClientRect();
+                    let speed = 0.1; // Sedikit dilambatkan karena yang bergerak bongkahan besar
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        let yPos = (window.innerHeight - rect.top) * speed;
+                        // Hapus translateY bawaan dan gunakan margin/transform yang bersih
+                        el.style.transform = `translateY(${yPos - 50}px)`; 
+                    }
+                });
+            });
+
+            // 3D SPATIAL TRACKING
+            const frames = document.querySelectorAll('.frame-box');
+            frames.forEach(frame => {
+                const glare = frame.querySelector('.glare');
+                
+                frame.addEventListener('mousemove', (e) => {
+                    // Karena framenya sekarang menggunakan transform untuk parallax, 
+                    // kita butuh kalkulasi rect yang sedikit berbeda, tapi untuk efek 3D tetap bisa digunakan
+                    const rect = frame.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = ((y - centerY) / centerY) * -4; 
+                    const rotateY = ((x - centerX) / centerX) * 4;
+                    
+                    // Pertahankan efek parallax (Y) sambil menambah rotasi 3D
+                    let currentY = frame.style.transform.match(/translateY\((.*?)\)/);
+                    let transY = currentY ? currentY[0] : 'translateY(0px)';
+                    
+                    frame.style.transform = `${transY} perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                    
+                    if(glare) {
+                        glare.style.opacity = '1';
+                        glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(212,175,55,0.15) 0%, transparent 60%)`;
+                    }
+                });
+                
+                frame.addEventListener('mouseleave', () => {
+                    let currentY = frame.style.transform.match(/translateY\((.*?)\)/);
+                    let transY = currentY ? currentY[0] : 'translateY(0px)';
+                    
+                    frame.style.transform = `${transY} perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+                    if(glare) glare.style.opacity = '0';
+                });
+            });
+            
+        });
+    </script>
+</body>
+</html>
