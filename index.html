@@ -1,528 +1,1495 @@
+```html
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>X1 | SMA Al-Abidin</title>
-    
-    <!-- ==========================================
-         BAGIAN 1: PENGATURAN FONT DARI GOOGLE
-         ========================================== -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Manrope:wght@200;300;400&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GUNGSTER | CARTEL MAFIA BESAR</title>
 
-    <!-- ==========================================
-         BAGIAN 2: CSS (DESAIN & TATA LETAK)
-         ========================================== -->
-    <style>
-        /* --- A. PENGATURAN DASAR (CORE) --- */
-        :root {
-            --bg: #020202;         
-            --text: #f5f5f5;       
-            --accent: #d4af37;     
-            --surface: #070707;    
-        }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        * { 
-            margin: 0; padding: 0; box-sizing: border-box; 
-            cursor: none; 
-        }
+    html {
+      scroll-behavior: smooth;
+    }
 
-        body {
-            background-color: var(--bg); 
-            color: var(--text);
-            font-family: 'Manrope', sans-serif; 
-            overflow-x: hidden; 
-            -webkit-font-smoothing: antialiased;
-        }
+    body {
+      background: #080808;
+      color: #e8e2d5;
+      font-family: Arial, Helvetica, sans-serif;
+      overflow-x: hidden;
+    }
 
-        h1, h2, .serif { 
-            font-family: 'Cinzel', serif; 
-            font-weight: 400; 
-        }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: -1;
+    }
 
-        /* --- B. DESAIN KURSOR KUSTOM --- */
-        .cursor-dot, .cursor-outline {
-            position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
-            border-radius: 50%; z-index: 19999; pointer-events: none;
-        }
-        .cursor-dot { 
-            width: 5px; height: 5px; background-color: var(--accent); 
-        }
-        .cursor-outline {
-            width: 40px; height: 40px; border: 1px solid rgba(212, 175, 55, 0.5);
-            transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
-        }
-        .button-group{
-            display: flex;
-            gap: 15px;
-        }
+    /* =========================
+       NAVIGATION
+    ========================= */
 
-        /* --- C. HEADER & JUDUL UTAMA (HERO) --- */
-        nav { 
-            position: fixed; top: 0; width: 100%; padding: 40px 5vw; 
-            display: flex; justify-content: space-between; 
-            z-index: 100; mix-blend-mode: difference; 
-        }
-        .brand { font-family: 'Cinzel', serif; font-size: 1.2rem; letter-spacing: 4px; }
-        
-        .hero { 
-            height: 50vh; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; text-align: center; 
-        }
-        .hero h1 { font-size: clamp(4rem, 10vw, 8rem); line-height: 1; letter-spacing: 2px; }
-        .hero p { 
-            margin-top: 20px; font-weight: 200; letter-spacing: 2px; 
-            text-transform: uppercase; font-size: 0.9rem; color: #888; 
-        }
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 7%;
+      background: rgba(8,8,8,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #242424;
+      z-index: 100;
+    }
 
-        /* --- D. SISTEM GRID/KOLOM GALERI --- */
-        .gallery-container { padding: 100px 5vw; max-width: 1800px; margin: 0 auto; }
-        .section-title { font-size: 3rem; margin-bottom: 80px; text-align: center; color: var(--accent); }
+    .logo {
+      font-size: 24px;
+      letter-spacing: 7px;
+      font-weight: bold;
+      color: #c9a55a;
+    }
 
-        .grid-lux {
-            display: grid; grid-template-columns: repeat(12, 1fr); 
-            gap: 50px; margin-bottom: 150px;
-            perspective: 2000px; 
-            align-items: start; 
-        }
-        .card button {
-            background:#00c8ff;
-            color:white;
-            border:none;
-            border-radius:10px;
-            padding:15px 35px;
-            box-shadow:0 0 20px #00c8ff;
-            transition:.3s;
-        }
-        .card button:hover{
-            box-shadow:0 0 40px #00c8ff;
-            transform:translateY(-2px);
-        }
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 28px;
+    }
 
-        .card {
-            height: 5vh; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; text-align: center; 
-        }
+    nav a {
+      text-decoration: none;
+      color: #bbb;
+      font-size: 14px;
+      transition: .3s;
+    }
 
-        .col-4 { grid-column: span 4; } .col-5 { grid-column: span 5; }
-        .col-6 { grid-column: span 6; } .col-7 { grid-column: span 7; }
-        .col-8 { grid-column: span 8; } .col-12 { grid-column: span 12; }
-        
-        .mt-stagger { margin-top: 15vh; } .mt-stagger-small { margin-top: 8vh; }
+    nav a:hover {
+      color: #c9a55a;
+    }
 
-        /* --- E. DESAIN BINGKAI FOTO 3D --- */
-        .frame-box {
-            background: linear-gradient(145deg, #121212, #050505);
-            padding: 2.5rem; 
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            box-shadow: 0 30px 60px -10px rgba(0,0,0,1), inset 0 1px 0 rgba(255,255,255,0.05);
-            transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            transform-style: preserve-3d;
-            height: auto; 
-            will-change: transform;
-        }
+    /* =========================
+       HERO
+    ========================= */
 
-        .frame-box::before, .frame-box::after {
-            content: ''; position: absolute; width: 25px; height: 25px;
-            border-color: rgba(212, 175, 55, 0.4); border-style: solid;
-            pointer-events: none; z-index: 5;
-        }
-        .frame-box::before { top: 0; left: 0; border-width: 1px 0 0 1px; }
-        .frame-box::after { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 8% 180px;
+      position: relative;
+      background:
+        radial-gradient(circle at 70% 40%, rgba(150,0,0,.18), transparent 35%),
+        linear-gradient(120deg, #070707 30%, #111 70%);
+      overflow: hidden;
+    }
 
-        .img-wrapper {
-            position: relative; width: 100%; height: auto; 
-            background: transparent;
-            transform: translateZ(30px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-            border: 1px solid rgba(255,255,255,0.05);
-            display: flex;
-        }
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: 8%;
+      width: 35%;
+      height: 70%;
+      border: 1px solid rgba(201,165,90,.2);
+      transform: rotate(8deg);
+      pointer-events: none;
+    }
 
-        .real-media {
-            width: 100%; height: auto; display: block; object-fit: contain; 
-        }
+    .hero-content {
+      max-width: 700px;
+      z-index: 5;
+      transition: transform .15s ease-out;
+    }
 
-        .glare {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.0), transparent);
-            opacity: 0; transition: opacity 0.3s;
-            pointer-events: none; z-index: 10;
-            transform: translateZ(35px);
-        }
-        
-        .hover-target { z-index: 10; }
+    .eyebrow {
+      color: #a32020;
+      letter-spacing: 5px;
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
 
-        /* ==========================================
-           --- F. DESAIN ANIMASI AMPLOP (POPUP BARU) ---
-           ========================================== */
-        /* 1. Wrapper Utama (Posisi di tengah layar) */
-        .popup-wrapper {
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, 150%); /* Start terselubung di bawah layar */
-            opacity: 0;
-            visibility: hidden;
-            z-index: 10000;
-            pointer-events: none;
-            
-            transition: transform 0.6s 1.0s cubic-bezier(0.36, 0, 0.66, -0.56),
-                        opacity 0.6s 1.0s ease,
-                        visibility 0.6s 1.0s;
-        }
+    .hero h1 {
+      font-size: clamp(56px, 10vw, 130px);
+      line-height: .85;
+      letter-spacing: 8px;
+      color: #d4b46a;
+    }
 
-        .popup-wrapper.show {
-            transform: translate(-50%, -20%); /* Posisi berhenti pas di tengah layar */
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-            
-            transition: transform 0.6s 0s cubic-bezier(0.22, 1, 0.36, 1),
-                        opacity 0.6s 0s ease,
-                        visibility 0s 0s;
-        }
+    .hero p {
+      margin-top: 28px;
+      max-width: 560px;
+      color: #aaa;
+      line-height: 1.8;
+    }
 
-        /* 2. Badan Amplop Utama */
-        .envelope {
-            position: relative;
-            width: 450px;
-            height: 300px;
-            background: #080808; /* Bagian gelap dalam amplop */
-            border-radius: 8px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.9);
-            perspective: 1200px; /* Memberi efek 3D saat flap terbuka */
-        }
+    .hero-buttons {
+      margin-top: 36px;
+      display: flex;
+      gap: 16px;
+    }
 
-        /* 3. Lipatan-lipatan (Folds) menggunakan Clip Path */
-        .fold-left {
-            position: absolute; bottom: 0; left: 0;
-            width: 50%; height: 100%;
-            clip-path: polygon(0 0, 100% 50%, 0 100%);
-            background: linear-gradient(to right, #111, #0a0a0a);
-            z-index: 3;
-        }
+    .btn {
+      padding: 14px 24px;
+      text-decoration: none;
+      border: 1px solid #c9a55a;
+      color: #c9a55a;
+      transition: .3s;
+    }
 
-        .fold-right {
-            position: absolute; bottom: 0; right: 0;
-            width: 50%; height: 100%;
-            clip-path: polygon(100% 0, 0 50%, 100% 100%);
-            background: linear-gradient(to left, #141414, #0d0d0d);
-            z-index: 3;
-        }
+    .btn:hover {
+      background: #c9a55a;
+      color: #080808;
+    }
 
-        .fold-bottom {
-            position: absolute; bottom: 0; left: 0;
-            width: 100%; height: 100%;
-            clip-path: polygon(0 100%, 50% 45%, 100% 100%);
-            background: linear-gradient(to top, #181818, #111);
-            z-index: 4; /* Berada di atas lipatan samping */
-        }
+    .btn.dark {
+      border-color: #333;
+      color: #aaa;
+    }
 
-        /* 4. Tutup Amplop Atas (Flap) */
-        .flap {
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
-            clip-path: polygon(0 0, 100% 0, 50% 55%);
-            background: linear-gradient(to bottom, #1f1f1f, #151515);
-            transform-origin: top;
-            z-index: 5; /* Berada paling atas saat tertutup */
-            
-            /* Animasi Menutup: Tunggu 0.5s (agar surat turun dulu), lalu tutup (0.5s) */
-            transition: transform 0.5s 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-                        z-index 0s 0.5s; /* Kembalikan z-index saat mau nutup */
-        }
+    /* =========================
+       BOSS PORTRAIT
+    ========================= */
 
-        /* 5. Isi Surat (Konten) */
-        /* 5. Isi Surat (Konten) */
-        .letter {
-            position: absolute;
-            bottom: 10px; left: 50%;
-            transform: translateX(-50%) translateY(0); 
-            width: 90%; 
-            height: 270px; /* Tinggi surat di dalam amplop */
-            background: linear-gradient(145deg, #151515, #080808);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-            border-radius: 8px;
-            padding: 2.5rem;
-            z-index: 2; 
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            
-            transition: transform 0.5s 0s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+    .boss-portrait {
+      position: absolute;
+      right: 7%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: min(390px, 38vw);
+      aspect-ratio: 3 / 4;
+      z-index: 2;
+      border: 1px solid rgba(201,165,90,.55);
+      padding: 7px;
+      background: linear-gradient(
+        145deg,
+        rgba(201,165,90,.16),
+        rgba(0,0,0,.8)
+      );
+      box-shadow:
+        0 25px 80px rgba(0,0,0,.75),
+        0 0 45px rgba(150,0,0,.12);
+    }
 
-        .popup-wrapper.show .letter {
-            /* Diubah dari -190px menjadi -130px agar naiknya pas tidak terlalu ke atas */
-            transform: translateX(-50%) translateY(-130px); 
-            
-            transition: transform 0.6s 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        /* --- LOGIKA ANIMASI SAAT ".show" AKTIF --- */
-        
-        .popup-wrapper.show .flap {
-            transform: rotateX(180deg); /* Buka tutup amplop 180 derajat ke belakang */
-            z-index: 1; /* Lempar tutup ke belakang agar surat tidak bertabrakan saat keluar */
-            
-            /* Delay Membuka: Tunggu amplop sampai atas dulu (0.6s) */
-            transition: transform 0.5s 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-                        z-index 0s 0.85s; /* Pindah z-index tepat di tengah-tengah putaran lipatan */
-        }
+    .boss-portrait::before {
+      content: "THE DON";
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      z-index: 3;
+      padding: 7px 10px;
+      background: rgba(5,5,5,.78);
+      border-left: 2px solid #a32020;
+      color: #d4b46a;
+      font-size: 10px;
+      letter-spacing: 3px;
+    }
 
-        .popup-wrapper.show .letter {
-            transform: translateX(-50%) translateY(-190px); /* Surat naik muncul ke atas sejauh 190px */
-            
-            /* Delay Keluar: Amplop naik(0.6s) + Flap buka(0.5s) = Tunggu 1.1s, baru surat naik */
-            transition: transform 0.6s 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
+    .boss-portrait img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+      filter: saturate(.78) contrast(1.08);
+    }
 
-        /* --- VERSI MOBILE (HP & TABLET) --- */
-        @media (max-width: 900px) {
-            .col-4, .col-5, .col-6, .col-7, .col-8 { grid-column: span 12; margin-top: 0; }
-            .frame-box { padding: 1rem; }
-        }
-        
-        @media (max-width: 500px) {
-            /* Responsif Amplop untuk Layar Kecil */
-            .envelope { width: 90vw; height: 60vw; }
-            .letter { height: 55vw; padding: 1.5rem; }
-            .popup-wrapper.show .letter { transform: translateX(-50%) translateY(-40vw); }
-            .letter h2 { font-size: 1.2rem !important; }
-        }
-    </style>
+    .boss-caption {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      z-index: 3;
+      padding: 13px 15px;
+      background: linear-gradient(
+        90deg,
+        rgba(5,5,5,.94),
+        rgba(5,5,5,.62)
+      );
+      border-top: 1px solid rgba(201,165,90,.35);
+    }
+
+    .boss-caption strong {
+      display: block;
+      color: #e3c77e;
+      font-size: 13px;
+      letter-spacing: 3px;
+    }
+
+    .boss-caption span {
+      display: block;
+      margin-top: 5px;
+      color: #888;
+      font-size: 10px;
+      letter-spacing: 2px;
+    }
+
+    /* =========================
+       HERO MEMORY STRIP
+    ========================= */
+
+    .hero-memories {
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      bottom: 28px;
+      display: flex;
+      align-items: flex-end;
+      gap: 16px;
+      z-index: 6;
+    }
+
+    .memory-polaroid {
+      width: 145px;
+      height: 105px;
+      padding: 6px;
+      background: #111;
+      border: 1px solid #383838;
+      box-shadow: 0 15px 35px rgba(0,0,0,.55);
+      transform: rotate(-3deg);
+      opacity: .78;
+      transition: .4s ease;
+    }
+
+    .memory-polaroid:nth-child(2) {
+      transform: rotate(2deg) translateY(-10px);
+    }
+
+    .memory-polaroid:nth-child(3) {
+      transform: rotate(-1deg) translateY(5px);
+    }
+
+    .memory-polaroid:nth-child(4) {
+      transform: rotate(4deg) translateY(-7px);
+    }
+
+    .memory-polaroid:hover {
+      transform: translateY(-12px) rotate(0deg) scale(1.06);
+      opacity: 1;
+      border-color: #c9a55a;
+    }
+
+    .memory-polaroid img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter:
+        grayscale(.5)
+        brightness(.62)
+        contrast(1.1);
+    }
+
+    .memory-note {
+      width: 235px;
+      min-height: 105px;
+      padding: 18px;
+      background: rgba(15,15,15,.9);
+      border: 1px solid #292929;
+      border-left: 2px solid #a32020;
+      box-shadow: 0 15px 35px rgba(0,0,0,.45);
+      transform: rotate(-1deg);
+    }
+
+    .memory-note small {
+      display: block;
+      color: #a32020;
+      font-family: monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .memory-note p {
+      color: #999;
+      font-family: Georgia, serif;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .memory-note span {
+      display: block;
+      margin-top: 9px;
+      color: #555;
+      font-family: monospace;
+      font-size: 8px;
+      letter-spacing: 1px;
+    }
+
+    /* =========================
+       GENERAL SECTIONS
+    ========================= */
+
+    section {
+      padding: 110px 8%;
+    }
+
+    .section-title {
+      font-size: 42px;
+      color: #d4b46a;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      color: #777;
+      max-width: 620px;
+      line-height: 1.8;
+      margin-bottom: 50px;
+    }
+
+    /* =========================
+       STATS
+    ========================= */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .stat {
+      background: #0f0f0f;
+      border: 1px solid #222;
+      padding: 34px;
+    }
+
+    .stat h3 {
+      font-size: 44px;
+      color: #c9a55a;
+    }
+
+    .stat p {
+      color: #777;
+      margin-top: 8px;
+    }
+
+    /* =========================
+       DIVISIONS
+    ========================= */
+
+    .divisions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .card {
+      background: linear-gradient(145deg, #101010, #0b0b0b);
+      border: 1px solid #242424;
+      padding: 34px;
+      min-height: 230px;
+      transition: .4s;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: #6e5526;
+    }
+
+    .card span {
+      color: #a32020;
+      font-size: 13px;
+      letter-spacing: 3px;
+    }
+
+    .card h3 {
+      color: #d4b46a;
+      font-size: 24px;
+      margin: 18px 0;
+    }
+
+    .card p {
+      color: #777;
+      line-height: 1.7;
+    }
+
+    /* =========================
+       TIMELINE
+    ========================= */
+
+    .timeline {
+      border-left: 1px solid #333;
+      margin-left: 12px;
+    }
+
+    .event {
+      position: relative;
+      padding: 0 0 50px 38px;
+    }
+
+    .event::before {
+      content: "";
+      position: absolute;
+      left: -6px;
+      top: 4px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #c9a55a;
+    }
+
+    .event small {
+      color: #a32020;
+      letter-spacing: 2px;
+    }
+
+    .event h3 {
+      color: #d4b46a;
+      margin: 10px 0;
+    }
+
+    .event p {
+      color: #777;
+      line-height: 1.7;
+      max-width: 650px;
+    }
+
+    /* =========================
+       MEMORY ARCHIVE
+    ========================= */
+
+    .archive-section {
+      position: relative;
+      background:
+        radial-gradient(
+          circle at 20% 20%,
+          rgba(150,0,0,.08),
+          transparent 30%
+        ),
+        linear-gradient(180deg, #090909, #050505);
+      overflow: hidden;
+    }
+
+    .archive-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 30px;
+      margin-bottom: 48px;
+    }
+
+    .archive-code {
+      color: #555;
+      font-family: monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      white-space: nowrap;
+    }
+
+    .memory-grid {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr .75fr;
+      grid-auto-rows: 260px;
+      gap: 18px;
+    }
+
+    .memory-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #282828;
+      background: #0d0d0d;
+      cursor: pointer;
+      transition:
+        transform .45s ease,
+        border-color .45s ease;
+    }
+
+    .memory-card.large {
+      grid-row: span 2;
+    }
+
+    .memory-card:hover {
+      transform: translateY(-6px);
+      border-color: #8b6b2d;
+    }
+
+    .memory-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter:
+        grayscale(.25)
+        contrast(1.08)
+        brightness(.72);
+      transition:
+        transform .7s ease,
+        filter .7s ease;
+    }
+
+    .memory-card:hover img {
+      transform: scale(1.06);
+      filter:
+        grayscale(.05)
+        contrast(1.08)
+        brightness(.86);
+    }
+
+    .memory-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(
+          180deg,
+          transparent 35%,
+          rgba(0,0,0,.9)
+        );
+      pointer-events: none;
+    }
+
+    .memory-info {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 18px;
+      z-index: 2;
+    }
+
+    .memory-info small {
+      color: #a32020;
+      font-family: monospace;
+      letter-spacing: 2px;
+    }
+
+    .memory-info h3 {
+      color: #e0c27a;
+      margin-top: 7px;
+      font-size: 20px;
+    }
+
+    .memory-info p {
+      color: #999;
+      margin-top: 5px;
+      font-size: 12px;
+    }
+
+    /* =========================
+       NOTES
+    ========================= */
+
+    .notes-wrap {
+      margin-top: 70px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+
+    .note {
+      position: relative;
+      min-height: 190px;
+      padding: 28px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.035),
+          transparent
+        ),
+        #101010;
+      border: 1px solid #292929;
+      box-shadow: 0 15px 40px rgba(0,0,0,.25);
+      transition:
+        transform .35s ease,
+        border-color .35s ease;
+    }
+
+    .note:nth-child(2) {
+      transform: rotate(.7deg);
+    }
+
+    .note:nth-child(3) {
+      transform: rotate(-.5deg);
+    }
+
+    .note:hover {
+      transform: translateY(-5px) rotate(0);
+      border-color: #705726;
+    }
+
+    .note::before {
+      content: "CONFIDENTIAL";
+      display: inline-block;
+      color: #7b1e1e;
+      font-family: monospace;
+      font-size: 9px;
+      letter-spacing: 3px;
+      border: 1px solid #4c1d1d;
+      padding: 5px 7px;
+      margin-bottom: 18px;
+    }
+
+    .note h3 {
+      color: #d4b46a;
+      font-family: Georgia, serif;
+      font-size: 22px;
+      font-weight: normal;
+      margin-bottom: 12px;
+    }
+
+    .note p {
+      color: #888;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .note .signature {
+      display: block;
+      margin-top: 18px;
+      color: #555;
+      font-family: monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+    }
+
+    .archive-footer {
+      margin-top: 45px;
+      padding-top: 20px;
+      border-top: 1px dashed #252525;
+      color: #555;
+      font-family: monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+    }
+
+    /* =========================
+       ANIMATION
+    ========================= */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: .8s;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      border-top: 1px solid #222;
+      padding: 50px 8%;
+      display: flex;
+      justify-content: space-between;
+      color: #666;
+      font-size: 13px;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media(max-width: 1000px) {
+
+      .boss-portrait {
+        opacity: .32;
+        right: 3%;
+        width: 330px;
+      }
+
+      .hero-content {
+        max-width: 650px;
+      }
+
+      .hero-memories {
+        left: 5%;
+        right: 5%;
+        gap: 10px;
+      }
+
+      .memory-polaroid {
+        width: 110px;
+        height: 82px;
+      }
+
+      .memory-note {
+        width: 180px;
+        min-height: 85px;
+      }
+    }
+
+    @media(max-width: 850px) {
+
+      nav ul {
+        display: none;
+      }
+
+      .stats,
+      .divisions {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .memory-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: 240px;
+      }
+
+      .memory-card.large {
+        grid-row: span 2;
+      }
+
+      .notes-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .note:nth-child(2),
+      .note:nth-child(3) {
+        transform: none;
+      }
+
+      .hero h1 {
+        font-size: 70px;
+      }
+    }
+
+    @media(max-width: 700px) {
+
+      .boss-portrait {
+        position: absolute;
+        top: 52%;
+        right: 50%;
+        transform: translate(50%, -50%);
+        width: 72vw;
+        max-width: 330px;
+        opacity: .18;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 7;
+      }
+
+      .hero-memories {
+        bottom: 18px;
+        left: 6%;
+        right: 6%;
+        overflow: hidden;
+      }
+
+      .memory-polaroid {
+        width: 100px;
+        height: 75px;
+      }
+
+      .memory-polaroid:nth-child(n+3),
+      .memory-note {
+        display: none;
+      }
+    }
+
+    @media(max-width: 560px) {
+
+      .stats,
+      .divisions {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-inline: 6%;
+      }
+
+      section {
+        padding-inline: 6%;
+      }
+
+      .hero h1 {
+        font-size: 54px;
+      }
+
+      .archive-header {
+        display: block;
+      }
+
+      .archive-code {
+        margin-top: 15px;
+      }
+
+      .memory-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 300px;
+      }
+
+      .memory-card.large {
+        grid-row: span 1;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-    <!-- ==========================================
-         BAGIAN 3: HTML KONTEN (STRUKTUR HALAMAN)
-         ========================================== -->
+  <!-- =========================
+       NAVIGATION
+  ========================= -->
 
-    <div class="cursor-dot" id="cursor-dot"></div>
-    <div class="cursor-outline" id="cursor-outline"></div>
+  <nav>
+    <div class="logo">GUNGSTER</div>
 
-    <nav>
-        <div class="brand hover-target">AL-ABIDIN</div>
-        <div class="brand hover-target">MMXXVI</div>
-    </nav>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#division">Division</a></li>
+      <li><a href="#history">History</a></li>
+      <li><a href="#memories">Memories</a></li>
+    </ul>
+  </nav>
 
-    <main>
-        <section class="hero">
-            <h1>KELAS X.1</h1>
-            <p>Arsip Dokumentasi & Kenangan Kelas</p>
-        </section>
 
-        <section class="card">
-            <div class="button-group">
-                 <button class="card hover-target" id="btn">Struktur Kelas</button>
-                 <a href="https://anggota-x1.vercel.app/">
-                    <button class="card hover-target">Lihat Kami</button>
-                 </a>
-            </div>
-        </section>
+  <!-- =========================
+       HERO
+  ========================= -->
 
-        <!-- Elemen Amplop / Popup -->
-        <div class="popup-wrapper" id="popup">
-            <div class="envelope">
-                <div class="fold-left"></div>
-                <div class="fold-right"></div>
-                <div class="fold-bottom"></div>
-                
-                <div class="letter hover-target">
-                    <!-- Bagian Kop Surat -->
-                    <h2 class="serif" style="color: var(--accent); margin-bottom: 5px; font-size: 1.6rem; letter-spacing: 1px;">STRUKTUR KELAS</h2>
-                    <div style="width: 50px; height: 1px; background: var(--accent); margin: 0 auto 10px auto;"></div>
-                    <p style="color: #aaa; font-size: 0.75rem; letter-spacing: 2px;">TAHUN AJARAN 2026/2027</p>
-                    
-                    <!-- Tabel Anggota -->
-                    <div style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; display: grid; gap: 12px; font-size: 0.9rem; color: #ddd; text-align: left; max-width: 85%; margin-inline: auto;">
-                        <div style="display: flex; justify-content: space-between;">
-                            <span style="color: var(--accent); font-weight: 300;">Wali Kelas</span> 
-                            <span style="font-weight: 300;">: Mrs. Adella, S.Pd</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <span style="color: var(--accent); font-weight: 300;">Ketua Kelas</span> 
-                            <span style="font-weight: 300;">: Rasyid Maulana Essa</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <span style="color: var(--accent); font-weight: 300;">Wakil Ketua Kelas</span> 
-                            <span style="font-weight: 300;">: Rafi Taufiq</span>
-                        </div>
-                    </div>
-                </div>
+  <header class="hero">
 
-                <div class="flap"></div>
-            </div>
+    <div class="hero-content">
+
+      <div class="eyebrow">
+        WEBSITE CARTEL MAFIA BESAR X.1
+      </div>
+
+      <h1>GUNGSTER</h1>
+
+      <p>
+        Kartel Mafia terbesar di seluruh penjuru negeri ngawi. Di bawah naungan king nasir, kami dengan sukarela 
+        memberantas kelompok suki liar.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="#about" class="btn">
+          ENTER ARCHIVES
+        </a>
+
+        <a href="#division" class="btn dark">
+          VIEW DIVISIONS
+        </a>
+      </div>
+
+    </div>
+
+
+    <!-- BOSS -->
+
+    <div class="boss-portrait">
+
+      <img
+        src="KETUABESARMAFIAGUNGSTER.png"
+        alt="Ketua Besar Mafia Gungster"
+      >
+
+      <div class="boss-caption">
+        <strong>THE DON</strong>
+        <span>KETUA BESAR MAFIA GUNGSTER</span>
+      </div>
+
+    </div>
+
+
+    <!-- HERO MEMORY GALLERY -->
+
+    <div class="hero-memories">
+
+      <div class="memory-polaroid">
+        <img
+          src="Lambo2.png"
+          alt="Gungster Memory 01"
+        >
+      </div>
+
+      <div class="memory-polaroid">
+        <img
+          src="Foto2.jpeg"
+          alt="Gungster Memory 02"
+        >
+      </div>
+
+      <div class="memory-polaroid">
+        <img
+          src="Billiard.png"
+          alt="Gungster Memory 03"
+        >
+      </div>
+
+      <div class="memory-polaroid">
+        <img
+          src="KETUABESARMAFIAGUNGSTER.png"
+          alt="Gungster Memory 04"
+        >
+      </div>
+
+      <div class="memory-note">
+
+        <small>
+          PERSONAL ARCHIVE / 01
+        </small>
+
+        <p>
+          “Beberapa nama menghilang dari sejarah. 
+          Nama kami justru semakin sulit ditemukan.”
+        </p>
+
+        <span>
+          — UNKNOWN / 2049
+        </span>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       ORGANIZATION
+  ========================= -->
+
+  <section id="about" class="reveal">
+
+    <h2 class="section-title">
+      The Organization
+    </h2>
+
+    <p class="section-sub">
+      Kartel Mafia terbesar di seluruh penjuru negeri ngawi. Di bawah naungan king nasir, kami memberantas kelompok suki liar.
+      ketua kami identitasnya misterius, tapi tidak dapat dipungkiri bahwa hubungannya dengan mas gatot, sang legenda
+      pemburu suki sangat erat. Markas kami terletak di wilayah ngawi tengah, dekat dengan markas utama 
+      JMK48.
+    </p>
+
+    <div class="stats">
+
+      <div class="stat">
+        <h3 class="counter" data-target="12">0</h3>
+        <p>Divisions</p>
+      </div>
+
+      <div class="stat">
+        <h3 class="counter" data-target="37">0</h3>
+        <p>Territories</p>
+      </div>
+
+      <div class="stat">
+        <h3 class="counter" data-target="1968">0</h3>
+        <p>Founded</p>
+      </div>
+
+      <div class="stat">
+        <h3 class="counter" data-target="99">0</h3>
+        <p>Confidential Files</p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       DIVISIONS
+  ========================= -->
+
+  <section id="division" class="reveal">
+
+    <h2 class="section-title">
+      Divisions
+    </h2>
+
+    <p class="section-sub">
+      Different branches form the fictional structure of the
+      organization.
+    </p>
+
+    <div class="divisions">
+
+      <div class="card">
+        <span>DIVISION 01</span>
+        <h3>The Council</h3>
+        <p>
+          Responsible for long-term strategy and maintaining the
+          organization's internal order.
+        </p>
+      </div>
+
+      <div class="card">
+        <span>DIVISION 02</span>
+        <h3>Intelligence</h3>
+        <p>
+          Collects information and monitors developments across the
+          fictional underworld.
+        </p>
+      </div>
+
+      <div class="card">
+        <span>DIVISION 03</span>
+        <h3>Logistics</h3>
+        <p>
+          Coordinates movement, communication, and operational
+          planning within the story universe.
+        </p>
+      </div>
+
+      <div class="card">
+        <span>DIVISION 04</span>
+        <h3>Diplomacy</h3>
+        <p>
+          Maintains alliances and negotiates relationships with rival
+          fictional factions.
+        </p>
+      </div>
+
+      <div class="card">
+        <span>DIVISION 05</span>
+        <h3>Security</h3>
+        <p>
+          Protects key figures and important locations in the
+          fictional narrative.
+        </p>
+      </div>
+
+      <div class="card">
+        <span>DIVISION 06</span>
+        <h3>Archives</h3>
+        <p>
+          Stores classified records, history, and legends surrounding
+          Gungster.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       HISTORY
+  ========================= -->
+
+  <section id="history" class="reveal">
+
+    <h2 class="section-title">
+      History
+    </h2>
+
+    <div class="timeline">
+
+      <div class="event">
+
+        <small>1968</small>
+
+        <h3>The Beginning</h3>
+
+        <p>
+          Kartel Mafia Gungster pertama kali muncul di daerah Ngawi Tengah dibuat oleh sang Ketua Agung Gungster
+        </p>
+
+      </div>
+
+      <div class="event">
+
+        <small>1987</small>
+
+        <h3>Expansion</h3>
+
+        <p>
+          Ketua Agung Mafia Gungster melakukan expansi ke wilayah Ngawi barat dan Ngawi Timur, serta melakukan penjarahan rutin di dearah Sukiharjo
+        </p>
+
+      </div>
+
+      <div class="event">
+
+        <small>2004</small>
+
+        <h3>The Silent Era</h3>
+
+        <p>
+          Ketua Agung Mafia Gungster kemudian mendirikan markas Kartel Gungster di daerah Ngawi tengah
+        </p>
+
+      </div>
+
+      <div class="event">
+
+        <small>2065</small>
+
+        <h3>Kebangkitan</h3>
+
+        <p>
+          Setelah hancur lebur di kalahkan oleh kelompok suki di daerah Sukiharjo, 
+          Kartel Gungster kemudian membuat epic comebacknya.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       MEMORY ARCHIVE
+  ========================= -->
+
+  <section id="memories" class="archive-section reveal">
+
+    <div class="archive-header">
+
+      <div>
+
+        <div class="eyebrow">
+          PRIVATE ARCHIVES / 04
         </div>
 
-        <section class="gallery-container">
-            <h2 class="section-title serif">I. Kurasi Foto</h2>
-            <div class="grid-lux">
-                <div class="frame-box col-7 js-parallax hover-target">
-                    <div class="img-wrapper"><img src="Foto3.jpeg" class="real-media" alt="Foto Kenangan"></div>
-                    <div class="glare"></div>
-                </div>
+        <h2 class="section-title">
+          Memories
+        </h2>
 
-                <div class="frame-box col-5 mt-stagger js-parallax hover-target">
-                    <div class="img-wrapper"><img src="Foto4.jpeg" class="real-media" alt="Foto Kenangan"></div>
-                    <div class="glare"></div>
-                </div>
+        <p class="section-sub">
+          Foto dan rekam jejak penjarahan markas-markas Suki di Ngawi Barat dan Sukiharjo,
+          Kemenangan, pelarian, kekalahan dan dokumentasi Ketua Agung Kartel Mafia Gungster
+          tersimpan di website ini.
+        </p>
 
-                <div class="frame-box col-12 js-parallax hover-target">
-                    <div class="img-wrapper"><img src="Foto2.jpeg" class="real-media" alt="Foto Grup"></div>
-                    <div class="glare"></div>
-                </div>
+      </div>
 
-                <div class="frame-box col-4 js-parallax hover-target">
-                    <div class="img-wrapper"><img src="Foto5.jpeg" class="real-media" alt="Momen"></div>
-                    <div class="glare"></div>
-                </div>
-                
-                <div class="frame-box col-4 mt-stagger-small js-parallax hover-target">
-                    <div class="img-wrapper"><img src="Foto6.jpeg" class="real-media" alt="Momen"></div>
-                    <div class="glare"></div>
-                </div>
-                
-                <div class="frame-box col-4 js-parallax hover-target">
-                    <div class="img-wrapper"><img src="Foto7.jpeg" class="real-media" alt="Momen"></div>
-                    <div class="glare"></div>
-                </div>
-            </div>
+      <div class="archive-code">
+        FILE: GNG-ARCH-2065
+        <br>
+        STATUS: CLASSIFIED
+      </div>
 
-            <h2 class="section-title serif" style="margin-top: 100px;">II. Sinematografi</h2>
-            <div class="grid-lux">
-                <div class="frame-box col-6 js-parallax hover-target">
-                    <div class="img-wrapper">
-                        <video class="real-media" autoplay loop muted playsinline controls poster="placeholder1.jpg">
-                            <source src="RAPI.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="glare"></div>
-                </div>
+    </div>
 
-                <div class="frame-box col-6 mt-stagger-small js-parallax hover-target">
-                    <div class="img-wrapper">
-                        <video class="real-media" autoplay loop muted playsinline controls poster="placeholder2.jpg">
-                            <source src="MBUHSOPO.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="glare"></div>
-                </div>
-            </div>
-        </section>
-    </main>
 
-    <!-- ==========================================
-         BAGIAN 4: JAVASCRIPT (LOGIKA & ANIMASI)
-         ========================================== -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
+    <!-- PHOTO GRID -->
 
-            const btn = document.getElementById("btn");
-            const popup = document.getElementById("popup");
+    <div class="memory-grid">
 
-            // Tampilkan atau sembunyikan popup saat tombol ditekan
-            btn.addEventListener("click", function(){
-                popup.classList.toggle("show");
-            });
+      <article class="memory-card large">
 
-            // Tutup popup saat mengklik di luar area amplop
-            document.addEventListener("click", function(event) {
-                if (!popup.contains(event.target) && event.target !== btn && popup.classList.contains("show")) {
-                    popup.classList.remove("show");
-                }
-            });
-            
-            // --- LOGIKA 1: KURSOR KUSTOM ---
-            const dot = document.getElementById('cursor-dot');
-            const outline = document.getElementById('cursor-outline');
-            const hoverTargets = document.querySelectorAll('.hover-target');
-            let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
-            let outlineX = mouseX, outlineY = mouseY;
+        <img
+          src="Foto5.jpeg"
+          alt="Ketua Besar Gungster"
+        >
 
-            window.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX; mouseY = e.clientY;
-                dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-            });
+        <div class="memory-info">
 
-            function animateCursor() {
-                outlineX += (mouseX - outlineX) * 0.15; 
-                outlineY += (mouseY - outlineY) * 0.15;
-                outline.style.transform = `translate(${outlineX}px, ${outlineY}px)`;
-                requestAnimationFrame(animateCursor);
-            }
-            animateCursor();
+          <small>
+            ARCHIVE 001 / 2065
+          </small>
 
-            hoverTargets.forEach(target => {
-                target.addEventListener('mouseenter', () => {
-                    outline.style.width = '80px'; outline.style.height = '80px';
-                    outline.style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
-                });
-                target.addEventListener('mouseleave', () => {
-                    outline.style.width = '40px'; outline.style.height = '40px';
-                    outline.style.backgroundColor = 'transparent';
-                });
-            });
+          <h3>
+            Hasil Kemenangan
+          </h3>
 
-            // --- LOGIKA 2: ANIMASI SCROLL PARALLAX ---
-            const parallaxElements = document.querySelectorAll('.js-parallax');
-            window.addEventListener('scroll', () => {
-                parallaxElements.forEach(el => {
-                    let rect = el.getBoundingClientRect();
-                    let speed = 0.1; 
-                    
-                    if (rect.top < window.innerHeight && rect.bottom > 0) {
-                        let yPos = (window.innerHeight - rect.top) * speed;
-                        el.style.transform = `translateY(${yPos - 50}px)`; 
-                    }
-                });
-            });
+          <p>
+            Penjarahan Markas Suki di Ngawi Barat
+          </p>
 
-            // --- LOGIKA 3: EFEK MIRING 3D SAAT FOTO DI-HOVER ---
-            const frames = document.querySelectorAll('.frame-box');
-            frames.forEach(frame => {
-                const glare = frame.querySelector('.glare');
-                
-                frame.addEventListener('mousemove', (e) => {
-                    // Mencegah efek tilt pada amplop jika menggunakan class frame-box
-                    if (frame.classList.contains("popup-wrapper")) return;
+        </div>
 
-                    const rect = frame.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    
-                    const rotateX = ((y - centerY) / centerY) * -4; 
-                    const rotateY = ((x - centerX) / centerX) * 4;
-                    
-                    let currentY = frame.style.transform.match(/translateY\((.*?)\)/);
-                    let transY = currentY ? currentY[0] : 'translateY(0px)';
-                    
-                    frame.style.transform = `${transY} perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-                    
-                    if(glare) {
-                        glare.style.opacity = '1';
-                        glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(212,175,55,0.15) 0%, transparent 60%)`;
-                    }
-                });
-                
-                frame.addEventListener('mouseleave', () => {
-                    if (frame.classList.contains("popup-wrapper")) return;
+      </article>
 
-                    let currentY = frame.style.transform.match(/translateY\((.*?)\)/);
-                    let transY = currentY ? currentY[0] : 'translateY(0px)';
-                    
-                    frame.style.transform = `${transY} perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-                    if(glare) glare.style.opacity = '0';
-                });
-            });
-            
+
+      <article class="memory-card">
+
+        <img
+          src="FotoKantor.png"
+          alt="Gungster archive portrait"
+        >
+
+        <div class="memory-info">
+
+          <small>
+            ARCHIVE 002
+          </small>
+
+          <h3>
+            Kantor Ngawi Tengah
+          </h3>
+
+          <p>
+            Kantor Ketua Besar Mafia Gungster Di Ngawi Tengah
+          </p>
+
+        </div>
+
+      </article>
+
+
+      <article class="memory-card">
+
+        <img
+          src="Foto6.jpeg"
+          alt="Gungster archive photograph"
+        >
+
+        <div class="memory-info">
+
+          <small>
+            ARCHIVE 003
+          </small>
+
+          <h3>
+            Pelarian
+          </h3>
+
+          <p>
+            Upaya Pelarian dari Gelomboran Suki Liar di Sukiharjo
+          </p>
+
+        </div>
+
+      </article>
+
+
+      <article class="memory-card">
+
+        <img
+          src="Foto3.jpeg"
+          alt="Gungster classified archive"
+        >
+
+        <div class="memory-info">
+
+          <small>
+            ARCHIVE 004
+          </small>
+
+          <h3>
+            Rekaman Terakhir
+          </h3>
+
+          <p>
+            Penjarahan Markas Kartel di Ngawi
+          </p>
+
+        </div>
+
+      </article>
+
+
+      <article class="memory-card">
+
+        <img
+          src="Galeri.png"
+          alt="Gungster memory archive"
+        >
+
+        <div class="memory-info">
+
+          <small>
+            ARCHIVE 005
+          </small>
+
+          <h3>
+            Legacy
+          </h3>
+
+          <p>
+            Nama Tetap Abadi Meski Ditinggal Pergi
+          </p>
+
+        </div>
+
+      </article>
+
+    </div>
+
+
+    <!-- NOTES -->
+
+    <div class="notes-wrap">
+
+      <article class="note">
+
+        <h3>
+          Note 01
+        </h3>
+
+        <p>
+          “Seorang pemimpin tidak perlu meninggikan suaranya. 
+          Jika ruangan menjadi sunyi saat ia masuk, 
+          pesan itu sudah tersampaikan.”
+        </p>
+
+        <span class="signature">
+          — UNKNOWN / 17.08.2049
+        </span>
+
+      </article>
+
+
+      <article class="note">
+
+        <h3>
+          Note 02
+        </h3>
+
+        <p>
+          Markas lama itu tidak pernah ditandai secara resmi di peta mana pun. 
+          Semua orang tahu di mana letaknya. 
+          Tak seorang pun mengaku mengetahuinya.
+        </p>
+
+        <span class="signature">
+          — ARCHIVE HANDWRITING / UNDATED
+        </span>
+
+      </article>
+
+
+      <article class="note">
+
+        <h3>
+          Note 03
+        </h3>
+
+        <p>
+          Ada tiga aturan yang tertulis di belakang meja. 
+          Kesetiaan, kerahasiaan, dan jangan pernah melupakan siapa yang membuat meja itu.
+        </p>
+
+        <span class="signature">
+          — GUNGSTER ARCHIVES / FILE 31
+        </span>
+
+      </article>
+
+    </div>
+
+
+    <div class="archive-footer">
+      END OF DISPLAY • SOME FILES HAVE BEEN REMOVED FROM PUBLIC VIEW
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       FOOTER
+  ========================= -->
+
+  <footer>
+
+    <div>
+      © 2065 GUNGSTER UNIVERSE
+    </div>
+
+    <div>
+      FICTIONAL CONCEPT • CINEMATIC LANDING PAGE
+    </div>
+
+  </footer>
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================= -->
+
+  <script>
+
+    /* REVEAL ANIMATION */
+
+    const reveals = document.querySelectorAll(".reveal");
+
+    const observer = new IntersectionObserver(
+      entries => {
+
+        entries.forEach(entry => {
+
+          if (entry.isIntersecting) {
+            entry.target.classList.add("active");
+          }
+
         });
-    </script>
+
+      },
+      {
+        threshold: 0.15
+      }
+    );
+
+    reveals.forEach(el => {
+      observer.observe(el);
+    });
+
+
+    /* COUNTER ANIMATION */
+
+    const counters = document.querySelectorAll(".counter");
+
+    counters.forEach(counter => {
+
+      const target = +counter.dataset.target;
+      let current = 0;
+
+      const step = Math.max(
+        1,
+        Math.ceil(target / 80)
+      );
+
+      const update = () => {
+
+        current += step;
+
+        if (current >= target) {
+
+          counter.textContent = target;
+
+        } else {
+
+          counter.textContent = current;
+          requestAnimationFrame(update);
+
+        }
+
+      };
+
+      update();
+
+    });
+
+
+    /* HERO PARALLAX */
+
+    window.addEventListener("mousemove", e => {
+
+      const x =
+        (e.clientX / window.innerWidth - .5) * 8;
+
+      const y =
+        (e.clientY / window.innerHeight - .5) * 8;
+
+      const heroContent =
+        document.querySelector(".hero-content");
+
+      if (heroContent) {
+
+        heroContent.style.transform =
+          `translate(${x}px, ${y}px)`;
+
+      }
+
+    });
+
+  </script>
+
 </body>
 </html>
+```
